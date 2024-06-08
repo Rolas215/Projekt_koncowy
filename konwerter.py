@@ -1,9 +1,10 @@
 import sys
+import json
 
 
 def parse_arguments():
     if len(sys.argv) != 3:
-        print("program.exe pathFile1.x pathFile2.y")
+        print("Sposób użycia: program.exe pathFile1.x pathFile2.y")
         sys.exit(1)
 
     input_file = sys.argv[1]
@@ -32,8 +33,14 @@ def parse_arguments():
     return input_file, output_file, input_format, output_format
 
 
-input_file, output_file, input_format, output_format = parse_arguments()
-print("Input file:", input_file)
-print("Output file:", output_file)
-print("Input format:", input_format)
-print("Output format:", output_format)
+def load_json(input_file):
+    try:
+        with open(input_file, "r") as file:
+            data = json.load(file)
+        return data
+    except json.JSONDecodeError as e:
+        print("Błąd w składni pliku JSON:", str(e))
+        sys.exit(1)
+    except FileNotFoundError:
+        print("Plik", input_file, "nie istnieje.")
+        sys.exit(1)
