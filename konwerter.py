@@ -1,6 +1,7 @@
 import sys
 import json
 import yaml
+import xml.etree.ElementTree as ET
 
 
 def parse_arguments():
@@ -75,4 +76,17 @@ def save_yaml(output_file, data):
             yaml.dump(data, file, default_flow_style=False)
     except Exception as e:
         print(f"Błąd podczas zapisu pliku YAML: {e}")
+        sys.exit(1)
+
+
+def load_xml(input_file):
+    try:
+        tree = ET.parse(input_file)
+        root = tree.getroot()
+        return root
+    except ET.ParseError as e:
+        print(f"Błąd w składni pliku XML: {str(e)}")
+        sys.exit(1)
+    except FileNotFoundError:
+        print(f"Plik {input_file} nie istnieje.")
         sys.exit(1)
