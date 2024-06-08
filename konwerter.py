@@ -1,5 +1,6 @@
 import sys
 import json
+import yaml
 
 
 def parse_arguments():
@@ -39,7 +40,7 @@ def load_json(input_file):
             data = json.load(file)
         return data
     except json.JSONDecodeError as e:
-        print("Błąd w składni pliku JSON:", str(e))
+        print(f"Błąd w składni pliku JSON: {str(e)}")
         sys.exit(1)
     except FileNotFoundError:
         print(f"Plik {input_file} nie istnieje.")
@@ -50,6 +51,19 @@ def save_json(output_file, data):
     try:
         with open(output_file, "w") as file:
             json.dump(data, file, indent=4)
-    except Exception as error:
-        print(f"Błąd podczas zapisu pliku JSON: {error}")
+    except Exception as e:
+        print(f"Błąd podczas zapisu pliku JSON: {e}")
+        sys.exit(1)
+
+
+def load_yaml(input_file):
+    try:
+        with open(input_file, "r") as file:
+            data = yaml.safe_load(file)
+        return data
+    except yaml.YAMLError as e:
+        print(f"Błąd w składni pliku YAML: {str(e)}")
+        sys.exit(1)
+    except FileNotFoundError:
+        print(f"Plik {input_file} nie istnieje.")
         sys.exit(1)
