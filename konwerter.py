@@ -42,5 +42,14 @@ def load_json(input_file):
         print("Błąd w składni pliku JSON:", str(e))
         sys.exit(1)
     except FileNotFoundError:
-        print("Plik", input_file, "nie istnieje.")
+        print(f"Plik {input_file} nie istnieje.")
+        sys.exit(1)
+
+
+def save_json(output_file, data):
+    try:
+        with open(output_file, "w") as file:
+            json.dump(data, file, indent=4)
+    except Exception as error:
+        print(f"Błąd podczas zapisu pliku JSON: {error}")
         sys.exit(1)
