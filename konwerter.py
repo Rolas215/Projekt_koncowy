@@ -90,3 +90,40 @@ def load_xml(input_file):
     except FileNotFoundError:
         print(f"Plik {input_file} nie istnieje.")
         sys.exit(1)
+
+
+def save_xml(output_file, root):
+    try:
+        tree = ET.ElementTree(root)
+        tree.write(output_file, encoding="utf-8", xml_declaration=True)
+    except Exception as e:
+        print(f"Błąd podczas zapisu pliku XML: {e}")
+        sys.exit(1)
+
+
+def main():
+    input_file, output_file, input_format, output_format = parse_arguments()
+
+    if input_format == "json":
+        data = load_json(input_file)
+    elif input_format == "yaml":
+        data = load_yaml(input_file)
+    elif input_format == "xml":
+        root = load_xml(input_file)
+    else:
+        print("Nieobsługiwany format pliku wejściowego.")
+        sys.exit(1)
+
+    if output_format == "json":
+        save_json(output_file, data)
+    elif output_format == "yaml":
+        save_yaml(output_file, data)
+    elif output_format == "xml":
+        save_xml(output_file, root)
+    else:
+        print("Nieobsługiwany format pliku wyjściowego.")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
