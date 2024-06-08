@@ -67,3 +67,12 @@ def load_yaml(input_file):
     except FileNotFoundError:
         print(f"Plik {input_file} nie istnieje.")
         sys.exit(1)
+
+
+def save_yaml(output_file, data):
+    try:
+        with open(output_file, "w") as file:
+            yaml.dump(data, file, default_flow_style=False)
+    except Exception as e:
+        print(f"Błąd podczas zapisu pliku YAML: {e}")
+        sys.exit(1)
